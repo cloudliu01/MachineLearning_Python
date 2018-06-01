@@ -1,0 +1,3 @@
+module load anaconda/5.0.1
+anaconda-navigator
+choose a environment with all packages in requirements.txt
