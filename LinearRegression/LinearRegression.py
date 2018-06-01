@@ -1,12 +1,15 @@
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
+
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.font_manager import FontProperties
-font = FontProperties(fname=r"c:\windows\fonts\simsun.ttc", size=14)    # 解决windows环境下画图汉字乱码问题
+from IPython import embed
+font = FontProperties( size=14)    # 解决windows环境下画图汉字乱码问题
 
 
 def linearRegression(alpha=0.01,num_iters=400):
-    print u"加载数据...\n"
+    print("loading data...\n".encode('utf-8'))
     
     data = loadtxtAndcsv_data("data.txt",",",np.float64)  #读取数据
     X = data[:,0:-1]      # X对应0到倒数第2列                  
@@ -19,7 +22,7 @@ def linearRegression(alpha=0.01,num_iters=400):
     
     X = np.hstack((np.ones((m,1)),X))    # 在X前加一列1
     
-    print u"\n执行梯度下降算法....\n"
+    print(u"\nexecuting grident decent....\n")
     
     theta = np.zeros((col,1))
     y = y.reshape(-1,1)   #将行向量转化为列
@@ -50,7 +53,7 @@ def featureNormaliza(X):
     for i in range(X.shape[1]):     # 遍历列
         X_norm[:,i] = (X_norm[:,i]-mu[i])/sigma[i]  # 归一化
     
-    return X_norm,mu,sigma
+    return (X_norm,mu,sigma)
 
 # 画二维图
 def plot_X1_X2(X):
@@ -73,7 +76,7 @@ def gradientDescent(X,y,theta,alpha,num_iters):
         temp[:,i] = theta - ((alpha/m)*(np.dot(np.transpose(X),h-y)))   #梯度的计算
         theta = temp[:,i]
         J_history[i] = computerCost(X,y,theta)      #调用计算代价函数
-        print '.',      
+        print('.',      )
     return theta,J_history  
 
 # 计算代价函数
@@ -88,16 +91,16 @@ def computerCost(X,y,theta):
 def plotJ(J_history,num_iters):
     x = np.arange(1,num_iters+1)
     plt.plot(x,J_history)
-    plt.xlabel(u"迭代次数",fontproperties=font) # 注意指定字体，要不然出现乱码问题
-    plt.ylabel(u"代价值",fontproperties=font)
-    plt.title(u"代价随迭代次数的变化",fontproperties=font)
+    plt.xlabel(u"Iteration num") # 注意指定字体，要不然出现乱码问题
+    plt.ylabel(u"Cost")
+    plt.title(u"Iteration num vs Cost")
     plt.show()
 
 # 测试linearRegression函数
 def testLinearRegression():
     mu,sigma,theta = linearRegression(0.01,400)
-    #print u"\n计算的theta值为：\n",theta
-    #print u"\n预测结果为：%f"%predict(mu, sigma, theta)
+    #print(u"\n计算的theta值为：\n",theta)
+    #print(u"\n预测结果为：%f"%predict(mu, sigma, theta))
     
 # 测试学习效果（预测）
 def predict(mu,sigma,theta):

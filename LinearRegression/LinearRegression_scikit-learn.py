@@ -1,10 +1,12 @@
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
 import numpy as np
 from sklearn import linear_model
 from sklearn.preprocessing import StandardScaler    #引入归一化的包
+from IPython import embed
 
 def linearRegression():
-    print u"加载数据...\n"
+    print(u"loading data.txt...\n")
     data = loadtxtAndcsv_data("data.txt",",",np.float64)  #读取数据
     X = np.array(data[:,0:-1],dtype=np.float64)      # X对应0到倒数第2列                  
     y = np.array(data[:,-1],dtype=np.float64)        # y对应最后一列  
@@ -13,17 +15,18 @@ def linearRegression():
     scaler = StandardScaler()   
     scaler.fit(X)
     x_train = scaler.transform(X)
-    x_test = scaler.transform(np.array([1650,3]))
+    x_test = scaler.transform(np.array([[1650,3]]))
     
     # 线性模型拟合
     model = linear_model.LinearRegression()
     model.fit(x_train, y)
     
     #预测结果
+    embed()
     result = model.predict(x_test)
-    print model.coef_       # Coefficient of the features 决策函数中的特征系数
-    print model.intercept_  # 又名bias偏置,若设置为False，则为0
-    print result            # 预测结果
+    print(model.coef_)       # Coefficient of the features 决策函数中的特征系数
+    print(model.intercept_)  # 又名bias偏置,若设置为False，则为0
+    print(result)            # 预测结果
 
 
 # 加载txt和csv文件
