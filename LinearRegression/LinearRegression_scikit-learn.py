@@ -22,7 +22,6 @@ def linearRegression():
     model.fit(x_train, y)
     
     #预测结果
-    embed()
     result = model.predict(x_test)
     print(model.coef_)       # Coefficient of the features 决策函数中的特征系数
     print(model.intercept_)  # 又名bias偏置,若设置为False，则为0

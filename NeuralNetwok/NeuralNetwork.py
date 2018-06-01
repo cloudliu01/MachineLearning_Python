@@ -1,10 +1,12 @@
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
+
 import numpy as np
 from scipy import io as spio
 from matplotlib import pyplot as plt
 from scipy import optimize
 from matplotlib.font_manager import FontProperties
-font = FontProperties(fname=r"c:\windows\fonts\simsun.ttc", size=14)    # 解决windows环境下画图汉字乱码问题
+#font = FontProperties(fname=r"c:\windows\fonts\simsun.ttc", size=14)    # 解决windows环境下画图汉字乱码问题
 
 from sklearn import datasets
 from sklearn.preprocessing import StandardScaler
@@ -44,8 +46,8 @@ def neuralNetwork(input_layer_size,hidden_layer_size,out_put_layer):
     #np.savetxt("testTheta.csv",initial_nn_params,delimiter=",")
     start = time.time()
     result = optimize.fmin_cg(nnCostFunction, initial_nn_params, fprime=nnGradient, args=(input_layer_size,hidden_layer_size,out_put_layer,X,y,Lambda), maxiter=100)
-    print (u'执行时间：',time.time()-start)
-    print (result)
+    print(u'Elapsed time : ',time.time()-start)
+    print(result)
     '''可视化 Theta1'''
     length = result.shape[0]
     Theta1 = result[0:hidden_layer_size*(input_layer_size+1)].reshape(hidden_layer_size,input_layer_size+1)
@@ -54,7 +56,7 @@ def neuralNetwork(input_layer_size,hidden_layer_size,out_put_layer):
     display_data(Theta2[:,1:length])
     '''预测'''
     p = predict(Theta1,Theta2,X)
-    print (u"预测准确度为：%f%%"%np.mean(np.float64(p == y.reshape(-1,1))*100))    
+    print(u"Accuracy : %f%%"%np.mean(np.float64(p == y.reshape(-1,1))*100))    
     res = np.hstack((p,y.reshape(-1,1)))
     np.savetxt("predict.csv", res, delimiter=',')
     
@@ -228,8 +230,9 @@ def checkGradient(Lambda = 0):
         step[i]=0
     # 显示两列比较
     res = np.hstack((num_grad.reshape(-1,1),grad.reshape(-1,1)))
-    print("检查梯度的结果，第一列为数值法计算得到的，第二列为BP得到的:")
-    print (res)
+    #print("检查梯度的结果，第一列为数值法计算得到的，第二列为BP得到的:")
+    print("checking gradient result. The 1st column is from analytical result while the 2nd one is from BP : ")
+    print(res)
 
 # 初始化调试的theta权重
 def debugInitializeWeights(fan_in,fan_out):
